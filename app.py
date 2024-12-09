@@ -13,9 +13,6 @@ from chat_history import insert_data
 from langchain_utils import authenticate, is_authenticated
 from feedback import update_feedback_status
 
-# https://api.dev.cloud.scogo.in:8080/v1/auth
-# https://api.cloud.scogo.in:8080/v1/auth
-
 # Display heading on both login and chatbox pages
 st.markdown(
     "<h1 style='text-align: center; margin-top: -24px;'>Scogo Analytics Chatbot</h1>",
