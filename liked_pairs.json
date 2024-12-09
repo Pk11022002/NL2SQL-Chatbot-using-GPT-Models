@@ -1,0 +1,26 @@
+[
+    {
+        "input": "details of lavelle",
+        "query": "SELECT * FROM customers WHERE customer_company_name LIKE '%lavelle%' LIMIT 100000;"
+    },
+    {
+        "input": "vendors from mumbai",
+        "query": "SELECT sp.sp_name AS name, u.mobile AS contact_number, u.email FROM service_partner AS sp JOIN service_partner_office AS spo ON sp.service_partner_id = spo.fk_sp_id JOIN city AS c ON spo.fk_city_id = c.city_id JOIN users AS u ON sp.fk_user_id = u.id WHERE c.city_name = 'Mumbai' AND sp.is_deleted = 0 AND spo.is_deleted = 0 AND u.is_deleted = 0 AND u.type = 'SP' AND u.role = 12 AND u.partner_working_under = 'CUSTOMER' LIMIT 1000;"
+    },
+    {
+        "input": "give me service partners from bhopal",
+        "query": "SELECT sp.sp_name AS name, u.mobile AS contact_number, u.email FROM service_partner AS sp JOIN service_partner_office AS spo ON sp.service_partner_id = spo.fk_sp_id JOIN city AS c ON spo.fk_city_id = c.city_id JOIN users AS u ON sp.fk_user_id = u.id WHERE c.city_name = 'Bhopal' AND sp.is_deleted = 0 AND spo.is_deleted = 0 AND u.is_deleted = 0 AND u.type = 'SP' AND u.role = 12 AND u.partner_working_under = 'SCOGO'"
+    },
+    {
+        "input": "service partners from bhopal",
+        "query": "SELECT sp.sp_name AS name, u.mobile AS contact_number, u.email FROM service_partner AS sp JOIN service_partner_office AS spo ON sp.service_partner_id = spo.fk_sp_id JOIN city AS c ON spo.fk_city_id = c.city_id JOIN users AS u ON sp.fk_user_id = u.id WHERE c.city_name = 'Bhopal' AND sp.is_deleted = 0 AND spo.is_deleted = 0 AND u.is_deleted = 0 AND u.type = 'SP' AND u.role = 12 AND u.partner_working_under = 'SCOGO'"
+    },
+    {
+        "input": "incentive earnings of nazre in july 2024",
+        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user', COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM scogo_prod.users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime BETWEEN '2024-07-01' AND '2024-07-31' GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at BETWEEN '2024-07-01' AND '2024-07-31' GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%nazre%')"
+    },
+    {
+        "input": "incentive earnings of nazre in june 2024",
+        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user', COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM scogo_prod.users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime BETWEEN '2024-06-01' AND '2024-06-30' GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at BETWEEN '2024-06-01' AND '2024-06-30' GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%nazre%')"
+    }
+]
