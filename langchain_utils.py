@@ -38,7 +38,7 @@ def execute_query(query):
         print("Database connection closed.")
 
 def authenticate(email, password):
-    url = "https://api.cloud.scogo.in:8080/v1/auth"
+    url = ""
     payload = {
         "email": email,
         "password": password,
