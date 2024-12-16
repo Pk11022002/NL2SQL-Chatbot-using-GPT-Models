@@ -1,7 +1,7 @@
 examples = [
     {
        "input": "Give me users who can view reports",
-       "query": "SELECT CONCAT(first_name, ' ', last_name) FROM scogo_prod.users WHERE frontend_controller LIKE '%ReportViewing%' AND is_deleted = 0;"
+       "query": "SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE frontend_controller LIKE '%ReportViewing%' AND is_deleted = 0;"
     },
     {
         "input":"Give me users from Pune",
@@ -14,7 +14,7 @@ examples = [
     },
     {
         "input":"Give me users who can execute ticket",
-        "query":"SELECT CONCAT(first_name, ' ', last_name) FROM scogo_prod.users WHERE frontend_controller LIKE '%TicketExecution%' AND is_deleted = 0"
+        "query":"SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE frontend_controller LIKE '%TicketExecution%' AND is_deleted = 0"
     },
     {
         "input":"Give me contact details of users",
@@ -42,11 +42,11 @@ examples = [
     },
     {
         "input": "Give me the total Incentive earning of nazre in last one month.",
-        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user',COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM scogo_prod.users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime > DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at > DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%nazre%')"
+        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user',COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime > DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at > DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%nazre%')"
     },
     {
         "input": "Provide me the total Incentive earning of mehul in last two month.",
-        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user',COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM scogo_prod.users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime > DATE_SUB(NOW(), INTERVAL 2 MONTH) GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM scogo_prod.wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at > DATE_SUB(NOW(), INTERVAL 2 MONTH) GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%mehul%')"
+        "query": "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user',COALESCE(basic_incentive.positiveSum, 0) AS 'Base Incentive', COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive', COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive' FROM users AS u LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum FROM wallet_transaction WHERE paymentType = 'INCENTIVE' AND is_deleted = 0 AND status not in ('Pending','Failed') AND txTime > DATE_SUB(NOW(), INTERVAL 2 MONTH) GROUP BY fk_user_id) AS basic_incentive ON basic_incentive.fk_user_id = u.id LEFT JOIN (SELECT fk_user_id, COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum, COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum FROM wallet_transaction WHERE paymentType = 'WALLET_TRANSFER' AND is_deleted = 0 AND status not in ('Pending','Failed') AND reason = 'INCENTIVE' AND processed_at > DATE_SUB(NOW(), INTERVAL 2 MONTH) GROUP BY fk_user_id) AS additional_incentive ON additional_incentive.fk_user_id = u.id WHERE u.is_deleted = 0 AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%mehul%')"
     },
     {
         "input" : "Total Incentive earnings of Nazre in July 2024.",
@@ -56,10 +56,10 @@ examples = [
             COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive',
             COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive'
         FROM 
-            scogo_prod.users AS u
+            users AS u
         LEFT JOIN 
             (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum 
-            FROM scogo_prod.wallet_transaction 
+            FROM wallet_transaction 
             WHERE paymentType = 'INCENTIVE' 
             AND is_deleted = 0 
             AND status NOT IN ('Pending','Failed') 
@@ -71,7 +71,7 @@ examples = [
             (SELECT fk_user_id, 
                     COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
                     COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum 
-            FROM scogo_prod.wallet_transaction 
+            FROM wallet_transaction 
             WHERE paymentType = 'WALLET_TRANSFER' 
             AND is_deleted = 0 
             AND status NOT IN ('Pending','Failed') 
@@ -82,7 +82,7 @@ examples = [
             additional_incentive.fk_user_id = u.id
         WHERE 
             u.is_deleted = 0 
-            AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%nazre%'); """
+            AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%nazre%'); """
     },
     {
         "input" : "Incentive earnings of Mehul from 25th July 2024 to 6th August 2024",
@@ -92,10 +92,10 @@ examples = [
             COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive',
             COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive'
         FROM 
-            scogo_prod.users AS u
+            users AS u
         LEFT JOIN 
             (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum 
-            FROM scogo_prod.wallet_transaction 
+            FROM wallet_transaction 
             WHERE paymentType = 'INCENTIVE' 
             AND is_deleted = 0 
             AND status NOT IN ('Pending','Failed') 
@@ -107,7 +107,7 @@ examples = [
             (SELECT fk_user_id, 
                     COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
                     COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum 
-            FROM scogo_prod.wallet_transaction 
+            FROM wallet_transaction 
             WHERE paymentType = 'WALLET_TRANSFER' 
             AND is_deleted = 0 
             AND status NOT IN ('Pending','Failed') 
@@ -118,7 +118,7 @@ examples = [
             additional_incentive.fk_user_id = u.id
         WHERE 
             u.is_deleted = 0 
-            AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%mehul%'); """
+            AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%mehul%'); """
 },
 {
     "input" : "Total earnings of Nazre from 25th July 2024 to 6th August 2024 ",
@@ -130,7 +130,7 @@ examples = [
             COALESCE(basic_earning.positiveSum, 0) + COALESCE(basic_incentive.positiveSum, 0) + 
             COALESCE(additional_income.positiveSum, 0) + COALESCE(additional_income.negativeSum, 0) AS 'Total Earning'
         FROM 
-            scogo_prod.users AS u
+            users AS u
         LEFT JOIN 
             (SELECT 
                 fk_sp_id, 
@@ -151,7 +151,7 @@ examples = [
                 fk_user_id, 
                 COALESCE(SUM(orderAmount), 0) AS positiveSum
             FROM 
-                scogo_prod.wallet_transaction 
+                wallet_transaction 
             WHERE 
                 paymentType = 'INCENTIVE' 
                 AND is_deleted = 0 
@@ -168,7 +168,7 @@ examples = [
                 COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
                 COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum
             FROM 
-                scogo_prod.wallet_transaction 
+                wallet_transaction 
             WHERE 
                 paymentType = 'WALLET_TRANSFER' 
                 AND is_deleted = 0 
@@ -182,7 +182,7 @@ examples = [
             additional_income.fk_user_id = u.id
         WHERE 
             u.is_deleted = 0 
-            AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%nazre%');"""
+            AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%nazre%');"""
 },
 {
     "input" : "give me project wise count of tickets we have completed for bolt",
@@ -212,7 +212,7 @@ examples = [
             COALESCE(basic_earning.positiveSum, 0) + COALESCE(basic_incentive.positiveSum, 0) + 
             COALESCE(additional_income.positiveSum, 0) + COALESCE(additional_income.negativeSum, 0) AS 'Total Earning'
         FROM 
-            scogo_prod.users AS u
+            users AS u
         LEFT JOIN 
             (SELECT 
                 fk_sp_id, 
@@ -233,7 +233,7 @@ examples = [
                 fk_user_id, 
                 COALESCE(SUM(orderAmount), 0) AS positiveSum
             FROM 
-                scogo_prod.wallet_transaction 
+                wallet_transaction 
             WHERE 
                 paymentType = 'INCENTIVE' 
                 AND is_deleted = 0 
@@ -250,7 +250,7 @@ examples = [
                 COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
                 COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum
             FROM 
-                scogo_prod.wallet_transaction 
+                wallet_transaction 
             WHERE 
                 paymentType = 'WALLET_TRANSFER' 
                 AND is_deleted = 0 
@@ -264,7 +264,7 @@ examples = [
             additional_income.fk_user_id = u.id
         WHERE 
             u.is_deleted = 0 
-            AND u.id IN (SELECT id FROM scogo_prod.users WHERE first_name LIKE '%taiyab%')"""
+            AND u.id IN (SELECT id FROM users WHERE first_name LIKE '%taiyab%')"""
 },
 {
     "input" : "Total earnings of john in last one month",
@@ -276,7 +276,7 @@ examples = [
         COALESCE(basic_earning.positiveSum, 0) + COALESCE(basic_incentive.positiveSum, 0) + 
         COALESCE(additional_income.positiveSum, 0) + COALESCE(additional_income.negativeSum, 0) AS 'Total Earning'
     FROM 
-        scogo_prod.users AS u
+        users AS u
     LEFT JOIN 
         (SELECT 
             fk_sp_id, 
@@ -297,7 +297,7 @@ examples = [
             fk_user_id, 
             COALESCE(SUM(orderAmount), 0) AS positiveSum
         FROM 
-            scogo_prod.wallet_transaction 
+            wallet_transaction 
         WHERE 
             paymentType = 'INCENTIVE' 
             AND is_deleted = 0 
@@ -314,7 +314,7 @@ examples = [
             COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
             COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum
         FROM 
-            scogo_prod.wallet_transaction 
+            wallet_transaction 
         WHERE 
             paymentType = 'WALLET_TRANSFER' 
             AND is_deleted = 0 
@@ -338,10 +338,10 @@ examples = [
         COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Additional Incentive',
         COALESCE(basic_incentive.positiveSum, 0) + COALESCE(additional_incentive.positiveSum, 0) + COALESCE(additional_incentive.negativeSum, 0) AS 'Total Incentive'
     FROM 
-        scogo_prod.users AS u
+        users AS u
     LEFT JOIN 
         (SELECT fk_user_id, COALESCE(SUM(orderAmount), 0) AS positiveSum 
-        FROM scogo_prod.wallet_transaction 
+        FROM wallet_transaction 
         WHERE paymentType = 'INCENTIVE' 
         AND is_deleted = 0 
         AND status NOT IN ('Pending', 'Failed') 
@@ -353,7 +353,7 @@ examples = [
         (SELECT fk_user_id, 
                 COALESCE(SUM(CASE WHEN fk_user_id = recepient THEN orderAmount ELSE 0 END), 0) AS positiveSum,
                 COALESCE(SUM(CASE WHEN fk_user_id = sender THEN orderAmount ELSE 0 END) * -1, 0) AS negativeSum 
-        FROM scogo_prod.wallet_transaction 
+        FROM wallet_transaction 
         WHERE paymentType = 'WALLET_TRANSFER' 
         AND is_deleted = 0 
         AND status NOT IN ('Pending', 'Failed') 
@@ -388,11 +388,11 @@ examples = [
 },
 {
     "input" : 'Todays planned ticket',
-    "query" : 'SELECT id, job_ticket_number, execution_date FROM scogo_prod.tickets WHERE DATE(execution_date) = CURDATE() AND is_deleted = 0 and request_raised = 1'
+    "query" : 'SELECT id, job_ticket_number, execution_date FROM tickets WHERE DATE(execution_date) = CURDATE() AND is_deleted = 0 and request_raised = 1'
 },
 {
     "input" : 'count of todays planned ticket',
-    "query" : 'SELECT count(*) FROM scogo_prod.tickets WHERE DATE(execution_date) = CURDATE() AND is_deleted = 0 and request_raised = 1'
+    "query" : 'SELECT count(*) FROM tickets WHERE DATE(execution_date) = CURDATE() AND is_deleted = 0 and request_raised = 1'
 }
 ]
 
